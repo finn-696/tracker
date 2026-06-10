@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mein Tracker</title>
+<meta name="theme-color" content="#0e1124">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="title-row">
+        <h1>Mein Tracker</h1>
+        <p class="date" id="today"></p>
+      </div>
+
+      <!-- Tages-Dashboard: Ringe für Gewohnheiten / kcal / Wasser -->
+      <div class="dashboard" id="dashboard"></div>
+
+      <nav class="tabs">
+        <button class="tab active" data-tab="habits">🌱 Gewohnheiten</button>
+        <button class="tab" data-tab="fitness">💪 Fitness</button>
+        <button class="tab" data-tab="nutrition">🍎 Ernährung</button>
+      </nav>
+    </header>
+
+    <!-- HABITS -->
+    <section id="habitsTab" class="tab-content active">
+      <form id="addForm">
+        <input type="text" id="habitInput" placeholder="Neue Gewohnheit, z.B. 10 Min lesen" required>
+        <button type="submit">+</button>
+      </form>
+      <ul id="habitList"></ul>
+      <p class="summary" id="summary"></p>
+    </section>
+
+    <!-- FITNESS -->
+    <section id="fitnessTab" class="tab-content">
+      <form id="exerciseForm">
+        <div class="form-row">
+          <select id="exerciseIcon" class="icon-select">
+            <option value="💪">💪</option>
+            <option value="🏋️">🏋️</option>
+            <option value="🏃">🏃</option>
+            <option value="🚴">🚴</option>
+            <option value="🧘">🧘</option>
+            <option value="🤸">🤸</option>
+            <option value="🏊">🏊</option>
+            <option value="⚡">⚡</option>
+          </select>
+          <input type="text" id="exerciseName" placeholder="Übung, z.B. Bankdrücken" required>
+          <select id="exerciseUnit">
+            <option value="kg_reps">kg + Wdh.</option>
+            <option value="kg">kg</option>
+            <option value="reps">Wdh.</option>
+            <option value="min">Min</option>
+            <option value="km">km</option>
+          </select>
+        </div>
+        <details class="goal-details">
+          <summary>🎯 Ziel festlegen (optional)</summary>
+          <div class="form-row goal-row">
+            <input type="number" id="exerciseGoalValue" step="0.1" placeholder="Zielwert">
+            <input type="date" id="exerciseGoalDate">
+          </div>
+        </details>
+        <button type="submit" class="full-width-btn">+ Übung hinzufügen</button>
+      </form>
+      <div id="exerciseList" class="exercise-grid"></div>
+    </section>
+
+    <!-- NUTRITION -->
+    <section id="nutritionTab" class="tab-content">
+      <!-- Kalorien -->
+      <div class="nutrition-card">
+        <div class="nutrition-card-top">
+          <span class="nutrition-card-title">🔥 Kalorien heute</span>
+          <span class="nutrition-card-value" id="kcalSummary">0 / 2000 kcal</span>
+        </div>
+        <div class="goal-bar big">
+          <div class="goal-bar-fill kcal-fill" id="kcalBarFill" style="width:0%"></div>
+        </div>
+        <div class="nutrition-card-sub" id="kcalRemaining"></div>
+      </div>
+
+      <form id="foodForm" autocomplete="off">
+        <div class="form-row search-row">
+          <input type="text" id="foodSearch" placeholder="Was hast du gegessen? z.B. Banane">
+          <div id="foodSuggestions" class="suggestions hidden"></div>
+        </div>
+        <div class="form-row">
+          <input type="number" id="foodAmount" placeholder="Menge (g)" value="100" min="1" inputmode="numeric">
+          <input type="number" id="foodKcal100" placeholder="kcal / 100g" step="1" min="0" inputmode="numeric">
+          <span class="kcal-preview" id="kcalPreview">= 0 kcal</span>
+        </div>
+        <button type="submit" class="full-width-btn">+ Eintragen</button>
+      </form>
+
+      <ul id="foodLogList" class="log-history"></ul>
+
+      <!-- Wasser -->
+      <div class="nutrition-card water-card">
+        <div class="nutrition-card-top">
+          <span class="nutrition-card-title">💧 Wasser heute</span>
+          <span class="nutrition-card-value water-value" id="waterSummary">0 / 2000 ml</span>
+        </div>
+        <div class="goal-bar big">
+          <div class="goal-bar-fill water-fill" id="waterBarFill" style="width:0%"></div>
+        </div>
+        <div class="water-glasses" id="waterGlasses"></div>
+        <div class="water-controls">
+          <button type="button" class="water-btn" data-amount="-250">− 250 ml</button>
+          <button type="button" class="water-btn" data-amount="250">+ 250 ml</button>
+          <button type="button" class="water-btn" data-amount="500">+ 500 ml</button>
+        </div>
+      </div>
+
+      <!-- Tagesziele -->
+      <details class="goal-details nutrition-goals">
+        <summary>⚙️ Tagesziele anpassen</summary>
+        <form id="nutritionGoalForm" class="form-row goal-row">
+          <input type="number" id="kcalGoalInput" min="1" placeholder="kcal-Ziel" inputmode="numeric">
+          <input type="number" id="waterGoalInput" min="1" step="50" placeholder="Wasser-Ziel (ml)" inputmode="numeric">
+          <button type="submit">Speichern</button>
+        </form>
+      </details>
+    </section>
+  </div>
+
+  <!-- DETAIL MODAL -->
+  <div id="exerciseModal" class="modal hidden">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">✕</button>
+      <h2 id="modalTitle"></h2>
+
+      <div class="chart-wrap">
+        <svg id="modalChart" viewBox="0 0 300 120" preserveAspectRatio="none"></svg>
+      </div>
+
+      <div id="goalProgress" class="goal-progress"></div>
+
+      <div class="stats-grid" id="modalStats"></div>
+
+      <details class="goal-details">
+        <summary>🎯 Ziel &amp; Einheit bearbeiten</summary>
+        <form id="modalGoalForm" class="form-row goal-row">
+          <select id="modalUnit">
+            <option value="kg_reps">kg + Wdh.</option>
+            <option value="kg">kg</option>
+            <option value="reps">Wdh.</option>
+            <option value="min">Min</option>
+            <option value="km">km</option>
+          </select>
+          <input type="number" id="modalGoalValue" step="0.1" placeholder="Zielwert">
+          <input type="date" id="modalGoalDate">
+          <button type="submit">Speichern</button>
+        </form>
+      </details>
+
+      <form id="logForm">
+        <input type="date" id="logDate" required>
+        <input type="number" id="logValue" step="0.1" placeholder="Wert" required>
+        <input type="number" id="logReps" min="1" step="1" placeholder="Wdh." class="hide">
+        <button type="submit">Eintragen</button>
+      </form>
+
+      <ul id="logHistory" class="log-history"></ul>
+      <button class="delete-exercise" id="deleteExercise">Übung löschen</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
