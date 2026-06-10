@@ -728,8 +728,59 @@ button:active {
   width: 76px;
 }
 
+#logKm {
+  width: 70px;
+}
+
+#logMin {
+  width: 92px;
+}
+
 .hide {
   display: none !important;
+}
+
+/* Journal */
+.section-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: -6px;
+}
+
+.delta {
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.delta-up {
+  color: var(--accent);
+}
+
+.delta-down {
+  color: #f87171;
+}
+
+.delta-neutral {
+  color: var(--muted);
+}
+
+.journal-vals {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.nutrition-journal {
+  margin-bottom: 16px;
+}
+
+#nutritionJournalList {
+  margin-top: 4px;
 }
 
 .log-history {

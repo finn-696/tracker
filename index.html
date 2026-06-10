@@ -59,6 +59,7 @@
             <option value="kg_reps">kg + Wdh.</option>
             <option value="kg">kg</option>
             <option value="reps">Wdh.</option>
+            <option value="km_zeit">km + Zeit (Pace)</option>
             <option value="min">Min</option>
             <option value="km">km</option>
           </select>
@@ -121,6 +122,12 @@
         </div>
       </div>
 
+      <!-- Tage-Journal -->
+      <details class="goal-details nutrition-journal">
+        <summary>📒 Journal der letzten 14 Tage</summary>
+        <ul id="nutritionJournalList" class="log-history"></ul>
+      </details>
+
       <!-- Tagesziele -->
       <details class="goal-details nutrition-goals">
         <summary>⚙️ Tagesziele anpassen</summary>
@@ -154,6 +161,7 @@
             <option value="kg_reps">kg + Wdh.</option>
             <option value="kg">kg</option>
             <option value="reps">Wdh.</option>
+            <option value="km_zeit">km + Zeit (Pace)</option>
             <option value="min">Min</option>
             <option value="km">km</option>
           </select>
@@ -167,9 +175,12 @@
         <input type="date" id="logDate" required>
         <input type="number" id="logValue" step="0.1" placeholder="Wert" required>
         <input type="number" id="logReps" min="1" step="1" placeholder="Wdh." class="hide">
+        <input type="number" id="logKm" min="0.1" step="0.1" placeholder="km" class="hide">
+        <input type="number" id="logMin" min="0.1" step="0.1" placeholder="Zeit (Min)" class="hide">
         <button type="submit">Eintragen</button>
       </form>
 
+      <p class="section-label">📒 Journal</p>
       <ul id="logHistory" class="log-history"></ul>
       <button class="delete-exercise" id="deleteExercise">Übung löschen</button>
     </div>

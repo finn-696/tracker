@@ -240,14 +240,51 @@ document.getElementById("addForm").addEventListener("submit", (e) => {
 const EXERCISES_KEY = "exercises";
 let activeExerciseId = null;
 
-const UNIT_LABELS = { kg: "kg", kg_reps: "kg", reps: "Wdh.", min: "Min", km: "km" };
+const UNIT_LABELS = { kg: "kg", kg_reps: "kg", reps: "Wdh.", min: "Min", km: "km", km_zeit: "min/km" };
 
-/* "60 kg × 8" bei kombinierter Einheit, sonst "60 kg" */
-function entryLabel(ex, entry) {
+/* Pace als "5:30" formatieren (aus 5.5 Dezimal-Minuten) */
+function paceFormat(p) {
+  let m = Math.floor(p);
+  let s = Math.round((p - m) * 60);
+  if (s === 60) { m++; s = 0; }
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+/* Einen Wert mit Einheit anzeigen, z.B. "60 kg" oder "5:30 min/km" */
+function valueLabel(ex, v) {
+  if (ex.unit === "km_zeit") return `${paceFormat(v)} min/km`;
+  return `${v} ${UNIT_LABELS[ex.unit]}`;
+}
+
+/* Bei Pace ist kleiner = besser, sonst entscheidet die Zielrichtung (Standard: größer = besser) */
+function lowerIsBetter(ex) {
+  if (ex.unit === "km_zeit") return true;
+  if (ex.goalValue == null || ex.entries.length === 0) return false;
+  const first = [...ex.entries].sort((a, b) => a.date.localeCompare(b.date))[0].value;
+  return ex.goalValue < first;
+}
+
+/* "60 kg × 8" bzw. "5 km in 30 Min · 6:00 min/km" */
+function entryLabel(ex, entry, long) {
   if (ex.unit === "kg_reps") {
     return `${entry.value} kg${entry.reps ? " × " + entry.reps : ""}`;
   }
+  if (ex.unit === "km_zeit") {
+    const pace = `${paceFormat(entry.value)} min/km`;
+    if (long && entry.km) return `${entry.km} km in ${entry.min} Min · ${pace}`;
+    return pace;
+  }
   return `${entry.value} ${UNIT_LABELS[ex.unit]}`;
+}
+
+/* Veränderung zum Vortermin, z.B. "+2,5 kg" oder "−15 s/km" */
+function deltaLabel(ex, delta) {
+  if (ex.unit === "km_zeit") {
+    const secs = Math.round(delta * 60);
+    return (secs > 0 ? "+" : "−") + Math.abs(secs) + " s/km";
+  }
+  const d = Math.round(delta * 10) / 10;
+  return (d > 0 ? "+" : "−") + Math.abs(d) + " " + UNIT_LABELS[ex.unit];
 }
 
 function buildSvgPoints(entries, width, height, padding, goalValue) {
@@ -356,7 +393,7 @@ function renderExercises() {
       goalBarHtml = `
         <div class="goal-bar-wrap">
           <div class="goal-bar-labels">
-            <span>${progress.reached ? "🎉 Ziel erreicht!" : `Ziel: ${progress.goal} ${UNIT_LABELS[ex.unit]}`}</span>
+            <span>${progress.reached ? "🎉 Ziel erreicht!" : `Ziel: ${valueLabel(ex, progress.goal)}`}</span>
             <span class="pct">${Math.round(progress.pct)}%${days ? " · " + days : ""}</span>
           </div>
           <div class="goal-bar">
@@ -445,12 +482,26 @@ function renderModal() {
 
   document.getElementById("modalTitle").textContent = `${ex.icon || "💪"} ${ex.name}`;
 
-  // Wdh.-Feld nur bei kombinierter Einheit anzeigen
+  // Eingabefelder je nach Einheit umschalten
   const isKgReps = ex.unit === "kg_reps";
+  const isKmZeit = ex.unit === "km_zeit";
+  const valueInput = document.getElementById("logValue");
   const repsInput = document.getElementById("logReps");
+  const kmInput = document.getElementById("logKm");
+  const minInput = document.getElementById("logMin");
+  valueInput.classList.toggle("hide", isKmZeit);
+  valueInput.required = !isKmZeit;
   repsInput.classList.toggle("hide", !isKgReps);
   repsInput.required = isKgReps;
-  document.getElementById("logValue").placeholder = isKgReps ? "kg" : "Wert";
+  kmInput.classList.toggle("hide", !isKmZeit);
+  kmInput.required = isKmZeit;
+  minInput.classList.toggle("hide", !isKmZeit);
+  minInput.required = isKmZeit;
+  valueInput.placeholder = isKgReps ? "kg" : "Wert";
+  document.getElementById("modalGoalValue").placeholder = isKmZeit ? "Ziel-Pace (5.5 = 5:30)" : "Zielwert";
+
+  // Werte formatieren: bei Pace "5:30" statt 5.5
+  const fmtVal = (v) => (isKmZeit ? paceFormat(v) : v);
 
   // Diagramm
   const chart = document.getElementById("modalChart");
@@ -462,21 +513,24 @@ function renderModal() {
     if (goalY != null) {
       goalLineHtml = `
         <line x1="14" y1="${goalY}" x2="286" y2="${goalY}" stroke="#f472b6" stroke-width="1.5" stroke-dasharray="4 4"/>
-        <text x="286" y="${goalY - 4 < 10 ? goalY + 12 : goalY - 4}" fill="#f472b6" font-size="9" text-anchor="end">Ziel: ${ex.goalValue}</text>
+        <text x="286" y="${goalY - 4 < 10 ? goalY + 12 : goalY - 4}" fill="#f472b6" font-size="9" text-anchor="end">Ziel: ${fmtVal(ex.goalValue)}</text>
       `;
     }
     const pts = points.split(" ");
     chart.innerHTML = `
-      <text x="4" y="12" fill="#8b93c8" font-size="8" opacity="0.8">${max}</text>
-      <text x="4" y="116" fill="#8b93c8" font-size="8" opacity="0.8">${min}</text>
+      <text x="4" y="12" fill="#8b93c8" font-size="8" opacity="0.8">${fmtVal(max)}</text>
+      <text x="4" y="116" fill="#8b93c8" font-size="8" opacity="0.8">${fmtVal(min)}</text>
       ${goalLineHtml}
       <polyline points="${points}" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       ${sorted.map((e, i) => {
         const [x, y] = pts[i].split(",");
+        let pointText = "";
+        if (ex.unit === "kg_reps" && e.reps) pointText = `×${e.reps}`;
+        if (ex.unit === "km_zeit" && e.km) pointText = `${e.km}km`;
         let label = "";
-        if (ex.unit === "kg_reps" && e.reps) {
+        if (pointText) {
           const ly = parseFloat(y) - 7 < 10 ? parseFloat(y) + 14 : parseFloat(y) - 7;
-          label = `<text x="${x}" y="${ly}" fill="#8b93c8" font-size="8" text-anchor="middle">×${e.reps}</text>`;
+          label = `<text x="${x}" y="${ly}" fill="#8b93c8" font-size="8" text-anchor="middle">${pointText}</text>`;
         }
         return `<circle cx="${x}" cy="${y}" r="3" fill="#818cf8"/>${label}`;
       }).join("")}
@@ -493,7 +547,7 @@ function renderModal() {
     progressBox.className = "goal-progress";
     progressBox.innerHTML = `
       <div class="goal-progress-top">
-        <span>${progress.reached ? "🎉 Ziel erreicht!" : `Auf dem Weg zu ${progress.goal} ${UNIT_LABELS[ex.unit]}`}</span>
+        <span>${progress.reached ? "🎉 Ziel erreicht!" : `Auf dem Weg zu ${valueLabel(ex, progress.goal)}`}</span>
         <span class="pct">${Math.round(progress.pct)}%</span>
       </div>
       <div class="goal-bar">
@@ -516,60 +570,88 @@ function renderModal() {
   const values = ex.entries.map((e) => e.value);
   const latest = sortedByDate.length ? sortedByDate[sortedByDate.length - 1].value : 0;
   const first = sortedByDate.length ? sortedByDate[0].value : 0;
-  // Bei sinkendem Ziel (z.B. schnellere Zeit) ist der niedrigste Wert der beste
-  const lowerIsBetter = ex.goalValue != null && sortedByDate.length && ex.goalValue < first;
-  const best = values.length ? (lowerIsBetter ? Math.min(...values) : Math.max(...values)) : 0;
-  const diff = Math.round((latest - first) * 10) / 10;
+  const lowerBetter = lowerIsBetter(ex);
+  const best = values.length ? (lowerBetter ? Math.min(...values) : Math.max(...values)) : 0;
+  const totalDiff = latest - first;
   const unit = UNIT_LABELS[ex.unit];
 
   document.getElementById("modalStats").innerHTML = `
     <div class="stat-box">
-      <div class="stat-value">${values.length ? best : "–"}</div>
+      <div class="stat-value">${values.length ? fmtVal(best) : "–"}</div>
       <div class="stat-label">Bestwert (${unit})</div>
     </div>
     <div class="stat-box">
-      <div class="stat-value">${values.length ? latest : "–"}</div>
+      <div class="stat-value">${values.length ? fmtVal(latest) : "–"}</div>
       <div class="stat-label">Aktuell (${unit})</div>
     </div>
     <div class="stat-box">
-      <div class="stat-value">${ex.entries.length > 1 ? (diff >= 0 ? "+" : "") + diff : "–"}</div>
-      <div class="stat-label">Veränderung</div>
+      <div class="stat-value">${ex.entries.length > 1 ? deltaLabel(ex, totalDiff) : "–"}</div>
+      <div class="stat-label">Seit Beginn</div>
     </div>
   `;
 
-  // Verlauf
+  // Journal: Verlauf mit Veränderung zum jeweils vorherigen Eintrag
   const history = document.getElementById("logHistory");
   history.innerHTML = "";
-  [...ex.entries].sort((a, b) => b.date.localeCompare(a.date)).forEach((entry) => {
-    const li = document.createElement("li");
-    li.innerHTML = `
-      <span>${formatDate(entry.date)} — <strong>${entryLabel(ex, entry)}</strong></span>
-      <button title="Löschen">✕</button>
-    `;
-    li.querySelector("button").addEventListener("click", (e) => {
-      armDelete(e.currentTarget, "Sicher?", () => deleteLog(entry.date));
+  sortedByDate
+    .map((entry, i) => ({ entry, delta: i > 0 ? entry.value - sortedByDate[i - 1].value : null }))
+    .reverse()
+    .forEach(({ entry, delta }) => {
+      let deltaHtml = "";
+      if (delta !== null) {
+        if (Math.abs(delta) < 0.001) {
+          deltaHtml = `<span class="delta delta-neutral">＝</span>`;
+        } else {
+          const better = lowerBetter ? delta < 0 : delta > 0;
+          deltaHtml = `<span class="delta ${better ? "delta-up" : "delta-down"}">${better ? "▲" : "▼"} ${deltaLabel(ex, delta)}</span>`;
+        }
+      }
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span>${formatDate(entry.date)} — <strong>${entryLabel(ex, entry, true)}</strong></span>
+        <span style="display:flex; align-items:center; gap:8px;">
+          ${deltaHtml}
+          <button title="Löschen">✕</button>
+        </span>
+      `;
+      li.querySelector("button").addEventListener("click", (e) => {
+        armDelete(e.currentTarget, "Sicher?", () => deleteLog(entry.date));
+      });
+      history.appendChild(li);
     });
-    history.appendChild(li);
-  });
 }
 
 document.getElementById("logForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const date = document.getElementById("logDate").value;
-  const value = parseFloat(document.getElementById("logValue").value);
-  if (!date || isNaN(value)) return;
+  if (!date) return;
 
   const exercises = load(EXERCISES_KEY);
   const ex = exercises.find((x) => x.id === activeExerciseId);
 
-  const entry = { date, value };
-  if (ex.unit === "kg_reps") {
-    const reps = parseInt(document.getElementById("logReps").value, 10);
-    if (isNaN(reps) || reps < 1) {
-      toast("Bitte Wiederholungen angeben");
+  let entry;
+  if (ex.unit === "km_zeit") {
+    const km = parseFloat(document.getElementById("logKm").value);
+    const min = parseFloat(document.getElementById("logMin").value);
+    if (isNaN(km) || km <= 0 || isNaN(min) || min <= 0) {
+      toast("Bitte Strecke (km) und Zeit (Min) angeben");
       return;
     }
-    entry.reps = reps;
+    // Getrackt wird die Pace: Minuten pro Kilometer
+    const pace = Math.round((min / km) * 100) / 100;
+    entry = { date, value: pace, km, min };
+  } else {
+    const value = parseFloat(document.getElementById("logValue").value);
+    if (isNaN(value)) return;
+    entry = { date, value };
+    if (ex.unit === "kg_reps") {
+      const reps = parseInt(document.getElementById("logReps").value, 10);
+      if (isNaN(reps) || reps < 1) {
+        toast("Bitte Wiederholungen angeben");
+        return;
+      }
+      entry.reps = reps;
+    }
   }
 
   // Pro Tag ein Wert: vorhandenen Eintrag ersetzen
@@ -580,6 +662,8 @@ document.getElementById("logForm").addEventListener("submit", (e) => {
   save(EXERCISES_KEY, exercises);
   document.getElementById("logValue").value = "";
   document.getElementById("logReps").value = "";
+  document.getElementById("logKm").value = "";
+  document.getElementById("logMin").value = "";
   renderModal();
   renderExercises();
 });
@@ -881,7 +965,47 @@ function renderNutrition() {
   document.getElementById("kcalGoalInput").placeholder = `kcal-Ziel (aktuell ${goals.kcal})`;
   document.getElementById("waterGoalInput").placeholder = `Wasser-Ziel ml (aktuell ${goals.water})`;
 
+  renderNutritionJournal();
   renderDashboard();
+}
+
+/* Tage-Journal: Rückblick auf die letzten 14 Tage mit Einträgen */
+function renderNutritionJournal() {
+  const goals = loadNutritionGoals();
+  const foodLog = loadFoodLog();
+  const waterLog = loadWaterLog();
+  const today = todayKey();
+
+  const dates = [...new Set([...Object.keys(foodLog), ...Object.keys(waterLog)])]
+    .filter((d) => (foodLog[d] || []).length > 0 || (waterLog[d] || 0) > 0)
+    .sort()
+    .reverse()
+    .slice(0, 14);
+
+  const list = document.getElementById("nutritionJournalList");
+  list.innerHTML = "";
+
+  if (dates.length === 0) {
+    list.innerHTML = '<li class="empty">Noch keine Einträge</li>';
+    return;
+  }
+
+  dates.forEach((d) => {
+    const kcal = (foodLog[d] || []).reduce((s, f) => s + f.kcal, 0);
+    const water = waterLog[d] || 0;
+    const over = kcal > goals.kcal;
+    const dayName = d === today ? "Heute" : new Date(d + "T12:00:00").toLocaleDateString("de-DE", { weekday: "short" });
+
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span>${dayName}, ${formatDate(d)}</span>
+      <span class="journal-vals">
+        <span class="${over ? "delta-down" : ""}">🔥 ${kcal}${over ? " (+" + (kcal - goals.kcal) + ")" : ""}</span>
+        <span style="color:var(--blue)">💧 ${water} ml</span>
+      </span>
+    `;
+    list.appendChild(li);
+  });
 }
 
 /* ---------- Init ---------- */
