@@ -814,6 +814,8 @@ button:active {
   gap: 6px;
   max-height: 180px;
   overflow-y: auto;
+  /* Verhindert, dass die Liste im Modal (Flex-Spalte) auf 0 Höhe schrumpft */
+  flex-shrink: 0;
 }
 
 .log-history li {
