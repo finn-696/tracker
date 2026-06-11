@@ -80,6 +80,30 @@ header .title-row {
   margin-bottom: 18px;
 }
 
+.title-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.wm-link {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent2), var(--accent3));
+  box-shadow: 0 4px 14px rgba(129, 140, 248, 0.4);
+  white-space: nowrap;
+}
+
+.wm-link:hover {
+  opacity: 0.88;
+}
+
 header h1 {
   font-size: 1.55rem;
   letter-spacing: -0.02em;
@@ -1293,6 +1317,106 @@ button:active {
   color: var(--muted);
   padding: 30px 0;
   font-size: 0.9rem;
+}
+
+/* Wett-Tipps & Quoten */
+.odds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.odds-table th,
+.odds-table td {
+  padding: 6px 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.odds-table th {
+  color: var(--muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.odds-table th:first-child,
+.odds-table td:first-child {
+  text-align: left;
+}
+
+.odds-table tr:last-child td {
+  border-bottom: none;
+}
+
+.odds-table .best {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.odds-note {
+  margin-top: 8px;
+  font-size: 0.7rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.tip-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tip-list li {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tip-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.tip-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 0.83rem;
+  font-weight: 600;
+}
+
+.tip-prob {
+  color: var(--accent);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.tip-meta {
+  margin-top: 2px;
+  font-size: 0.76rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.tip-meta strong {
+  color: var(--gold);
+}
+
+.value-pick {
+  background: var(--card);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.value-pick strong {
+  color: var(--gold);
 }
 
 /* ---------- Toast ---------- */
