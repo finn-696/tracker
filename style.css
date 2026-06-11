@@ -1291,6 +1291,51 @@ button:active {
   color: var(--accent2);
 }
 
+.live-result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+}
+
+.live-result .lr-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.live-result .lr-score {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.live-result .lr-status {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.live-result.is-live {
+  border-color: rgba(248, 113, 113, 0.5);
+}
+
+.live-result.is-live .lr-status {
+  color: #f87171;
+}
+
+.live-result.is-final .lr-status {
+  color: var(--accent);
+}
+
 /* Prognose-Box */
 .prognosis-box {
   background: var(--bg1);
