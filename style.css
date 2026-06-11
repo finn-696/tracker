@@ -1103,13 +1103,13 @@ button:active {
 
 .match-pill {
   flex: 1;
-  padding: 9px 6px;
+  padding: 9px 4px;
   border: none;
   border-radius: 9px;
   background: transparent;
   color: var(--muted);
   font-weight: 700;
-  font-size: 0.82rem;
+  font-size: 0.74rem;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s;
