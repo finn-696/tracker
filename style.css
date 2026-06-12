@@ -1440,6 +1440,14 @@ button:active {
   font-weight: 700;
 }
 
+.group-result-row .gr-time {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.64rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
 .group-result-row .gr-score {
   font-size: 1.05rem;
   font-weight: 800;
