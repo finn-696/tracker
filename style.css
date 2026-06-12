@@ -87,7 +87,13 @@ header .title-row {
   gap: 5px;
 }
 
-.wm-link {
+.title-links {
+  display: flex;
+  gap: 6px;
+}
+
+.wm-link,
+.atp-link {
   display: inline-block;
   padding: 5px 12px;
   border-radius: 999px;
@@ -95,12 +101,20 @@ header .title-row {
   font-weight: 700;
   text-decoration: none;
   color: #fff;
-  background: linear-gradient(135deg, var(--accent2), var(--accent3));
   box-shadow: 0 4px 14px rgba(129, 140, 248, 0.4);
   white-space: nowrap;
 }
 
-.wm-link:hover {
+.wm-link {
+  background: linear-gradient(135deg, var(--accent2), var(--accent3));
+}
+
+.atp-link {
+  background: linear-gradient(135deg, var(--gold), var(--blue));
+}
+
+.wm-link:hover,
+.atp-link:hover {
   opacity: 0.88;
 }
 

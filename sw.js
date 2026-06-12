@@ -1,8 +1,9 @@
-const CACHE = "tracker-v20";
+const CACHE = "tracker-v21";
 const ASSETS = [
   "./",
   "./index.html",
   "./wm.html",
+  "./atp.html",
   "./style.css",
   "./script.js",
   "./manifest.json",
