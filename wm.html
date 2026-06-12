@@ -1219,7 +1219,7 @@
       });
     });
 
-    document.querySelectorAll(".group-result-row").forEach((btn) => {
+    document.querySelectorAll(".group-result-row[data-target]").forEach((btn) => {
       btn.addEventListener("click", () => {
         const idx = parseInt(btn.dataset.target, 10);
         slider.scrollTo({ left: slides[idx].offsetLeft, behavior: "smooth" });

@@ -1135,6 +1135,21 @@ button:active {
   box-shadow: 0 4px 14px rgba(129, 140, 248, 0.4);
 }
 
+.match-pills.group-pills {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.match-pills.group-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.group-pills .match-pill {
+  flex: 0 0 auto;
+  min-width: 48px;
+}
+
 .swipe-hint {
   text-align: center;
   color: var(--muted);
@@ -1473,6 +1488,19 @@ button:active {
   font-weight: 700;
   color: var(--accent2);
   white-space: nowrap;
+}
+
+.group-result-row.pending {
+  cursor: default;
+}
+
+.group-result-row.pending:hover,
+.group-result-row.pending:active {
+  border-color: var(--border);
+}
+
+.group-result-row.pending .gr-link {
+  color: var(--muted);
 }
 
 /* Prognose-Box */
