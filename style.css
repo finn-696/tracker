@@ -1103,13 +1103,13 @@ button:active {
 
 .match-pill {
   flex: 1;
-  padding: 9px 4px;
+  padding: 10px 6px;
   border: none;
   border-radius: 9px;
   background: transparent;
   color: var(--muted);
   font-weight: 700;
-  font-size: 0.74rem;
+  font-size: 0.8rem;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s;
@@ -1334,6 +1334,123 @@ button:active {
 
 .live-result.is-final .lr-status {
   color: var(--accent);
+}
+
+/* Gruppen-Übersicht */
+.back-to-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 10px;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg1);
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.back-to-group:active,
+.back-to-group:hover {
+  border-color: var(--accent2);
+  color: var(--accent2);
+}
+
+.group-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.group-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.74rem;
+}
+
+.group-table th,
+.group-table td {
+  padding: 7px 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.group-table th {
+  color: var(--muted);
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.group-table td:first-child,
+.group-table th:first-child {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.group-table td:nth-child(2) {
+  text-align: left;
+  font-weight: 700;
+}
+
+.group-table tr:last-child td {
+  border-bottom: none;
+}
+
+.group-table .pts {
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.group-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.group-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.group-result-row:active,
+.group-result-row:hover {
+  border-color: var(--accent2);
+}
+
+.group-result-row .gr-flags {
+  flex: 1;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.group-result-row .gr-score {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.group-result-row .gr-link {
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--accent2);
+  white-space: nowrap;
 }
 
 /* Prognose-Box */

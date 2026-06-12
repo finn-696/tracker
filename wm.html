@@ -21,15 +21,55 @@
 
     <main>
       <div class="match-pills">
-        <button class="match-pill active" type="button">🇲🇽 vs. 🇿🇦</button>
-        <button class="match-pill" type="button">🇰🇷 vs. 🇨🇿</button>
+        <button class="match-pill active" type="button">📋 Gruppe A</button>
         <button class="match-pill" type="button">🏆 Prognose</button>
         <button class="match-pill" type="button">📊 Live-Baum</button>
       </div>
-      <p class="swipe-hint">↔️ Wischen oder oben antippen, um das Spiel zu wechseln</p>
+      <p class="swipe-hint">↔️ Wischen oder oben antippen, um zwischen Gruppen-Tabelle, Prognose-Baum und Live-Baum zu wechseln</p>
       <div class="match-slider" id="matchSlider">
       <article class="match-card">
         <header class="match-card-head">
+          <div class="match-flags"><span class="flag">📋</span><span>Gruppe A</span></div>
+          <div class="match-info">
+            Tabelle &amp; Ergebnisse nach Spieltag 1<br>
+            Mexiko-Stadt &amp; Guadalajara, 11.–12.06.2026
+          </div>
+          <span class="match-tag">Stand: 12.06.2026 · Spieltag 1 abgeschlossen</span>
+        </header>
+
+        <div class="group-table-wrap">
+          <table class="group-table">
+            <thead>
+              <tr><th>#</th><th>Team</th><th>Sp</th><th>S</th><th>U</th><th>N</th><th>Tore</th><th>Diff</th><th>Pkt</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>🇲🇽 Mexiko</td><td>1</td><td>1</td><td>0</td><td>0</td><td>2:0</td><td>+2</td><td class="pts">3</td></tr>
+              <tr><td>2</td><td>🇰🇷 Südkorea</td><td>1</td><td>1</td><td>0</td><td>0</td><td>2:1</td><td>+1</td><td class="pts">3</td></tr>
+              <tr><td>3</td><td>🇨🇿 Tschechien</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1:2</td><td>-1</td><td class="pts">0</td></tr>
+              <tr><td>4</td><td>🇿🇦 Südafrika</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0:2</td><td>-2</td><td class="pts">0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="group-results">
+          <button class="group-result-row" type="button" data-target="1">
+            <span class="gr-flags">🇲🇽 Mexiko – Südafrika 🇿🇦</span>
+            <span class="gr-score">2:0</span>
+            <span class="gr-link">Analyse &amp; Quoten ▸</span>
+          </button>
+          <button class="group-result-row" type="button" data-target="2">
+            <span class="gr-flags">🇰🇷 Südkorea – Tschechien 🇨🇿</span>
+            <span class="gr-score">2:1</span>
+            <span class="gr-link">Analyse &amp; Quoten ▸</span>
+          </button>
+        </div>
+
+        <p class="odds-note">Spieltag 2 (Gruppe A): Südkorea – Mexiko &amp; Tschechien – Südafrika am 18.06.2026. Auf ein Ergebnis tippen, um die vollständige Analyse mit Quotenvergleich, Wett-Tipps und Value-Picks zu öffnen.</p>
+      </article>
+
+      <article class="match-card">
+        <header class="match-card-head">
+          <button class="back-to-group" type="button">← Gruppe A</button>
           <div class="match-flags">
             <span class="flag">🇲🇽</span><span>Mexiko</span>
             <span class="match-vs">vs.</span>
@@ -262,6 +302,7 @@
 
       <article class="match-card">
         <header class="match-card-head">
+          <button class="back-to-group" type="button">← Gruppe A</button>
           <div class="match-flags">
             <span class="flag">🇰🇷</span><span>Südkorea</span>
             <span class="match-vs">vs.</span>
@@ -272,7 +313,7 @@
             Estadio Akron, Guadalajara/Zapopan
           </div>
           <span class="match-tag">Gruppe A · Spieltag 1</span>
-          <div class="live-result"><span class="lr-label">Ergebnis</span><span class="lr-score">– : –</span><span class="lr-status">⏳ Anstoß 12.06., 04:00 Uhr MESZ · Startelf KOR: Son, Kim Min-jae &amp; Lee Kang-in beginnen, Hwang Hee-chan nur Bank</span></div>
+          <div class="live-result is-final"><span class="lr-label">Ergebnis</span><span class="lr-score">2 : 1</span><span class="lr-status">✅ Endstand · Tore: Krejčí/CZE (59.), Hwang In-beom (67.), Oh Hyeon-gyu (80.) · Südkorea dreht 0:1-Rückstand – mit Mexiko (je 3 Pkt.) an der Spitze von Gruppe A</span></div>
         </header>
 
         <div class="prognosis-box">
@@ -523,7 +564,7 @@
         <header class="match-card-head">
           <div class="match-flags"><span class="flag">📊</span><span>Live-Baum</span></div>
           <div class="match-info">Der echte Turnierbaum: Hier stehen die tatsächlichen Paarungen und Ergebnisse,<br>sobald sie feststehen – wird während des Turniers laufend aktualisiert.</div>
-          <span class="match-tag">Stand: 11.06.2026 · Gruppenphase läuft, noch keine K.o.-Spiele</span>
+          <span class="match-tag">Stand: 12.06.2026 · Gruppe A Spieltag 1 komplett, sonst noch keine K.o.-Spiele</span>
         </header>
         <p class="odds-note">Sechzehntelfinal-Slots nach offiziellem FIFA-Spielplan (Sieger/Zweite/beste Dritte der Gruppen A–L). Die Achtelfinal-Paarungen stehen erst nach Ende der Gruppenphase (28.06.) fest und werden dann hier eingetragen. Horizontal wischen für alle Runden. →</p>
         <div class="bracket-scroll"><div class="bracket"><div class="round"><div class="round-title">Sechzehntelfinale</div><div class="bracket-match"><div class="bm-team"><span>Zweiter A</span><span class="bs">–</span></div><div class="bm-team"><span>Zweiter B</span><span class="bs">–</span></div><div class="bm-note">28.06. · Los Angeles</div></div><div class="bracket-match"><div class="bm-team"><span>Sieger C</span><span class="bs">–</span></div><div class="bm-team"><span>Zweiter F</span><span class="bs">–</span></div><div class="bm-note">29.06. · Houston</div></div><div class="bracket-match"><div class="bm-team"><span>Sieger E</span><span class="bs">–</span></div><div class="bm-team"><span>Dritter A/B/C/D/F</span><span class="bs">–</span></div><div class="bm-note">29.06. · Boston</div></div><div class="bracket-match"><div class="bm-team"><span>Sieger F</span><span class="bs">–</span></div><div class="bm-team"><span>Zweiter C</span><span class="bs">–</span></div><div class="bm-note">30.06. · Monterrey</div></div><div class="bracket-match"><div class="bm-team"><span>Zweiter E</span><span class="bs">–</span></div><div class="bm-team"><span>Zweiter I</span><span class="bs">–</span></div><div class="bm-note">30.06. · Dallas</div></div><div class="bracket-match"><div class="bm-team"><span>Sieger I</span><span class="bs">–</span></div><div class="bm-team"><span>Dritter C/D/F/G/H</span><span class="bs">–</span></div><div class="bm-note">30.06. · New Jersey</div></div><div class="bracket-match"><div class="bm-team"><span>Sieger A</span><span class="bs">–</span></div><div class="bm-team"><span>Dritter C/E/F/H/I</span><span class="bs">–</span></div><div class="bm-note">01.07. · Mexiko-Stadt</div></div><div class="bracket-match"><div class="bm-team"><span>Sieger L</span><span class="bs">–</span></div><div class="bm-team"><span>Dritter E/H/I/J/K</span><span class="bs">–</span></div><div class="bm-note">01.07. · Atlanta</div></div><div class="bracket-match"><div class="bm-team"><span>Sieger G</span><span class="bs">–</span></div><div class="bm-team"><span>Dritter A/E/H/I/J</span><span class="bs">–</span></div><div class="bm-note">01.07. · Seattle</div></div><div class="bracket-match"><div class="bm-team"><span>Sieger D</span><span class="bs">–</span></div><div class="bm-team"><span>Dritter B/E/F/I/J</span><span class="bs">–</span></div><div class="bm-note">02.07. · San Francisco</div></div><div class="bracket-match"><div class="bm-team"><span>Sieger H</span><span class="bs">–</span></div><div class="bm-team"><span>Zweiter J</span><span class="bs">–</span></div><div class="bm-note">02.07. · Los Angeles</div></div><div class="bracket-match"><div class="bm-team"><span>Zweiter K</span><span class="bs">–</span></div><div class="bm-team"><span>Zweiter L</span><span class="bs">–</span></div><div class="bm-note">03.07. · Toronto</div></div><div class="bracket-match"><div class="bm-team"><span>Sieger B</span><span class="bs">–</span></div><div class="bm-team"><span>Dritter E/F/G/I/J</span><span class="bs">–</span></div><div class="bm-note">03.07. · Vancouver</div></div><div class="bracket-match"><div class="bm-team"><span>Zweiter D</span><span class="bs">–</span></div><div class="bm-team"><span>Zweiter G</span><span class="bs">–</span></div><div class="bm-note">03.07. · Dallas</div></div><div class="bracket-match"><div class="bm-team"><span>Sieger J</span><span class="bs">–</span></div><div class="bm-team"><span>Zweiter H</span><span class="bs">–</span></div><div class="bm-note">04.07. · Miami</div></div><div class="bracket-match"><div class="bm-team"><span>Sieger K</span><span class="bs">–</span></div><div class="bm-team"><span>Dritter D/E/I/J/L</span><span class="bs">–</span></div><div class="bm-note">04.07. · Kansas City</div></div></div><div class="round"><div class="round-title">Achtelfinale</div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">04.–07.07.</div></div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">04.–07.07.</div></div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">04.–07.07.</div></div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">04.–07.07.</div></div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">04.–07.07.</div></div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">04.–07.07.</div></div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">04.–07.07.</div></div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">04.–07.07.</div></div></div><div class="round"><div class="round-title">Viertelfinale</div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">09.–11.07.</div></div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">09.–11.07.</div></div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">09.–11.07.</div></div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">09.–11.07.</div></div></div><div class="round"><div class="round-title">Halbfinale</div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">14./15.07.</div></div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">14./15.07.</div></div></div><div class="round"><div class="round-title">Finale</div><div class="bracket-match"><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-team"><span>offen</span><span class="bs">–</span></div><div class="bm-note">19.07. · New York</div></div></div><div class="round"><div class="round-title">Weltmeister</div><div class="bracket-champ">🏆<br>❓ offen</div></div></div></div>
@@ -535,10 +576,26 @@
     const slider = document.getElementById("matchSlider");
     const pills = document.querySelectorAll(".match-pill");
     const slides = Array.from(slider.children);
+    // Slide-Reihenfolge: 0 Gruppe A, 1 Mexiko-Südafrika, 2 Südkorea-Tschechien, 3 Prognose, 4 Live-Baum
+    const pillTargets = [0, 3, 4];
+    const pillForSlide = [0, 0, 0, 1, 2];
 
     pills.forEach((pill, i) => {
       pill.addEventListener("click", () => {
-        slider.scrollTo({ left: slides[i].offsetLeft, behavior: "smooth" });
+        slider.scrollTo({ left: slides[pillTargets[i]].offsetLeft, behavior: "smooth" });
+      });
+    });
+
+    document.querySelectorAll(".group-result-row").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const idx = parseInt(btn.dataset.target, 10);
+        slider.scrollTo({ left: slides[idx].offsetLeft, behavior: "smooth" });
+      });
+    });
+
+    document.querySelectorAll(".back-to-group").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        slider.scrollTo({ left: slides[0].offsetLeft, behavior: "smooth" });
       });
     });
 
@@ -548,7 +605,7 @@
         const d = Math.abs(s.offsetLeft - slider.scrollLeft);
         if (d < best) { best = d; active = i; }
       });
-      pills.forEach((p, i) => p.classList.toggle("active", i === active));
+      pills.forEach((p, i) => p.classList.toggle("active", i === pillForSlide[active]));
     }, { passive: true });
   </script>
 </body>
