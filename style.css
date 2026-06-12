@@ -1503,6 +1503,39 @@ button:active {
   color: var(--muted);
 }
 
+/* Spielplan */
+.schedule-day {
+  margin-top: 18px;
+}
+
+.schedule-day:first-of-type {
+  margin-top: 14px;
+}
+
+.schedule-date {
+  margin: 0 0 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--accent2);
+}
+
+.schedule-date .sd-today {
+  margin-left: 8px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent2), var(--accent3));
+  color: #fff;
+  vertical-align: middle;
+}
+
+.schedule-day .group-results {
+  margin-top: 0;
+}
+
 /* Prognose-Box */
 .prognosis-box {
   background: var(--bg1);
