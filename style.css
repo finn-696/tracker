@@ -1749,6 +1749,131 @@ button:active {
   color: var(--gold);
 }
 
+/* ---------- Prognose-Tracking ---------- */
+.tracking-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.tracking-stat {
+  flex: 1 1 40%;
+  min-width: 110px;
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.tracking-stat .ts-num {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.tracking-stat .ts-label {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.64rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tracking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tracking-row {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--muted);
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.tracking-row.hit {
+  border-left-color: var(--accent);
+}
+
+.tracking-row.miss {
+  border-left-color: #f87171;
+}
+
+.tracking-row.pending {
+  border-left-color: var(--gold);
+}
+
+.tr-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.tr-match {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.tr-date {
+  font-size: 0.64rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.tr-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px 12px;
+}
+
+.tr-pred,
+.tr-actual {
+  font-size: 0.76rem;
+  color: var(--text);
+}
+
+.tr-pred strong,
+.tr-actual strong {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.tr-badge {
+  font-size: 0.64rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.tr-badge.badge-hit {
+  background: rgba(52, 211, 153, 0.15);
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  color: var(--accent);
+}
+
+.tr-badge.badge-miss {
+  background: rgba(248, 113, 113, 0.15);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  color: #f87171;
+}
+
+.tr-badge.badge-pending {
+  background: rgba(251, 191, 36, 0.15);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  color: var(--gold);
+}
+
 /* ---------- Toast ---------- */
 .toast {
   position: fixed;
