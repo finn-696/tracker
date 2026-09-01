@@ -90,10 +90,13 @@ header .title-row {
 .title-links {
   display: flex;
   gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .wm-link,
-.atp-link {
+.atp-link,
+.lang-link {
   display: inline-block;
   padding: 5px 12px;
   border-radius: 999px;
@@ -113,8 +116,14 @@ header .title-row {
   background: linear-gradient(135deg, var(--gold), var(--blue));
 }
 
+.lang-link {
+  background: linear-gradient(135deg, var(--accent), var(--blue));
+  color: #04231a;
+}
+
 .wm-link:hover,
-.atp-link:hover {
+.atp-link:hover,
+.lang-link:hover {
   opacity: 0.88;
 }
 
