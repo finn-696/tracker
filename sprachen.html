@@ -188,6 +188,38 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .goal-note { font-size: 0.74rem; color: var(--muted); line-height: 1.5; }
 .goal-note b { color: var(--gold); font-weight: 650; }
 
+/* ---------- Großer Weiterlernen-Knopf ---------- */
+.cta {
+  position: relative; overflow: hidden;
+  width: 100%; display: flex; align-items: center; gap: 14px; text-align: left;
+  padding: 17px 18px; border-radius: var(--r-lg); margin-bottom: 20px; color: #04261b;
+  background: linear-gradient(135deg, #6cf0b8 0%, #2fcf94 45%, var(--accent-lo) 100%);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.55) inset,
+              0 6px 0 #0a7a52,
+              0 26px 44px -22px rgba(61,220,151,0.95);
+  transition: transform 0.13s cubic-bezier(0.3,1.3,0.5,1), box-shadow 0.13s, filter 0.2s;
+}
+.cta:hover { filter: brightness(1.04); }
+.cta:active { transform: translateY(5px); box-shadow: 0 1px 0 rgba(255,255,255,0.55) inset, 0 1px 0 #0a7a52; }
+.cta::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 45%; left: -60%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent);
+  animation: sheen 5.5s ease-in-out infinite; pointer-events: none;
+}
+@keyframes sheen { 0%, 62% { left: -60%; } 88%, 100% { left: 120%; } }
+.cta-icon {
+  width: 50px; height: 50px; border-radius: 16px; display: grid; place-items: center; flex: 0 0 auto;
+  font-size: 1.25rem; background: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset;
+}
+.cta-body { flex: 1; min-width: 0; }
+.cta-kicker { display: block; font-size: 0.58rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.72; }
+.cta-title { display: block; font-size: 1.04rem; font-weight: 750; letter-spacing: -0.028em; margin-top: 4px;
+             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cta-sub { display: block; font-size: 0.72rem; font-weight: 550; opacity: 0.75; margin-top: 3px;
+           white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cta-arrow { flex: 0 0 auto; font-size: 1.3rem; font-weight: 700; opacity: 0.65; }
+
 /* ---------- Segmentierte Navigation ---------- */
 .segmented {
   position: relative; display: flex; gap: 2px; padding: 4px; margin-bottom: 22px;
@@ -613,6 +645,16 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
       <p class="goal-note" id="goalNote"></p>
     </div>
   </div>
+
+  <button class="cta" id="continueBtn">
+    <span class="cta-icon">▶</span>
+    <span class="cta-body">
+      <span class="cta-kicker" id="ctaKicker">Weiterlernen</span>
+      <span class="cta-title" id="ctaTitle">Loslegen</span>
+      <span class="cta-sub" id="ctaSub"></span>
+    </span>
+    <span class="cta-arrow">→</span>
+  </button>
 
   <div class="segmented" id="viewTabs">
     <span class="seg-ind" id="segInd"></span>
@@ -1096,6 +1138,325 @@ const COURSES = [
   ]
 },
 {
+  id: "no", name: "Norwegisch", flag: "🇳🇴", voice: "nb-NO", level: "A1 → A2",
+  intro: "Überraschend leicht für Deutschsprachige: einfache Grammatik, keine Fälle, und die Verbform bleibt in allen Personen gleich.",
+  units: [
+    {
+      icon: "👋", name: "Erste Schritte", desc: "Begrüßen, vorstellen, zählen",
+      lessons: [
+        { name: "Hei og hallo",
+          tip: "Norwegisch hat drei Extrabuchstaben: æ, ø, å. Geduzt wird praktisch immer – „du“ gilt auch beim Chef.",
+          items: [
+            ["Hallo!", "Hei!"],
+            ["Guten Morgen!", "God morgen!"],
+            ["Wie geht es dir?", "Hvordan går det?"],
+            ["Danke, gut.", "Takk, bare bra."],
+            ["Wie heißt du?", "Hva heter du?"],
+            ["Ich heiße Finn.", "Jeg heter Finn."],
+            ["Freut mich, dich zu treffen!", "Hyggelig å møte deg!"],
+            ["Tschüss!", "Ha det bra!"]
+          ]},
+        { name: "Über dich",
+          tip: "Fragen kommen ohne Hilfsverb aus: „Snakker du engelsk?“ – Verb zuerst, fertig.",
+          items: [
+            ["Ich komme aus Deutschland.", "Jeg kommer fra Tyskland."],
+            ["Ich wohne in Oslo.", "Jeg bor i Oslo."],
+            ["Sprichst du Englisch?", "Snakker du engelsk?"],
+            ["Ich spreche ein bisschen Norwegisch.", "Jeg snakker litt norsk."],
+            ["Ich verstehe nicht.", "Jeg forstår ikke."],
+            ["Kannst du das wiederholen?", "Kan du gjenta det?"],
+            ["Was bedeutet das?", "Hva betyr det?"]
+          ]},
+        { name: "Zahlen & Zeit",
+          tip: "„Klokka“ ist die Uhr und die Uhrzeit zugleich: Hva er klokka? – Klokka er tre.",
+          items: [
+            ["eins, zwei, drei", "en, to, tre"],
+            ["vier, fünf, sechs", "fire, fem, seks"],
+            ["Wie spät ist es?", "Hva er klokka?"],
+            ["Es ist drei Uhr.", "Klokka er tre."],
+            ["heute", "i dag"],
+            ["morgen", "i morgen"],
+            ["Wie viel kostet das?", "Hva koster det?"]
+          ]}
+      ]
+    },
+    {
+      icon: "☕", name: "Alltag", desc: "Essen, einkaufen, erzählen",
+      lessons: [
+        { name: "Essen & Trinken",
+          tip: "„Takk“ ersetzt das höfliche „bitte“ beim Bestellen: En kaffe, takk.",
+          items: [
+            ["Einen Kaffee, bitte.", "En kaffe, takk."],
+            ["Ich hätte gern ein Bier.", "Jeg vil gjerne ha en øl."],
+            ["Ich habe Hunger.", "Jeg er sulten."],
+            ["Die Rechnung, bitte.", "Regningen, takk."],
+            ["Es schmeckt gut.", "Det smaker godt."],
+            ["Was möchtest du essen?", "Hva vil du spise?"],
+            ["Ich nehme die Suppe.", "Jeg tar suppen."]
+          ]},
+        { name: "Einkaufen",
+          tip: "Der bestimmte Artikel hängt hinten am Wort: en butikk → butikken (der Laden).",
+          items: [
+            ["Wo ist der Laden?", "Hvor er butikken?"],
+            ["Das ist zu teuer.", "Det er for dyrt."],
+            ["Kann ich mit Karte zahlen?", "Kan jeg betale med kort?"],
+            ["Ich suche eine Jacke.", "Jeg leter etter en jakke."],
+            ["Haben Sie die in Blau?", "Har du den i blått?"],
+            ["Ich nehme sie.", "Jeg tar den."],
+            ["Vielen Dank!", "Tusen takk!"]
+          ]},
+        { name: "Verben im Präsens",
+          tip: "Riesenvorteil: Die Verbform ändert sich nie – jeg snakker, du snakker, vi snakker, de snakker.",
+          items: [
+            ["Ich arbeite in Oslo.", "Jeg jobber i Oslo."],
+            ["Wir wohnen hier.", "Vi bor her."],
+            ["Sie liest ein Buch.", "Hun leser en bok."],
+            ["Er trinkt Kaffee.", "Han drikker kaffe."],
+            ["Was machst du?", "Hva gjør du?"],
+            ["Ich lerne Norwegisch.", "Jeg lærer norsk."],
+            ["Sie haben ein Haus.", "De har et hus."]
+          ]}
+      ]
+    },
+    {
+      icon: "🏔️", name: "Unterwegs & Natur", desc: "Wege, Wetter, Berge",
+      lessons: [
+        { name: "Nach dem Weg fragen",
+          tip: "„Til venstre“ und „til høyre“ – links und rechts merkt man sich am besten als Paar.",
+          items: [
+            ["Wo ist der Bahnhof?", "Hvor er togstasjonen?"],
+            ["Geradeaus.", "Rett fram."],
+            ["Nach links.", "Til venstre."],
+            ["Nach rechts.", "Til høyre."],
+            ["Es ist weit weg.", "Det er langt unna."],
+            ["Wie komme ich ins Zentrum?", "Hvordan kommer jeg til sentrum?"],
+            ["Ich habe mich verlaufen.", "Jeg har gått meg bort."]
+          ]},
+        { name: "Natur & Wetter",
+          tip: "„Gå på tur“ heißt wandern gehen – Friluftsliv, das Leben draußen, ist in Norwegen Nationalsport.",
+          items: [
+            ["Heute ist es kalt.", "Det er kaldt i dag."],
+            ["Es regnet.", "Det regner."],
+            ["Es schneit.", "Det snør."],
+            ["Die Aussicht ist wunderschön.", "Utsikten er nydelig."],
+            ["Wir gehen wandern.", "Vi går på tur."],
+            ["Der Berg ist hoch.", "Fjellet er høyt."],
+            ["Ich liebe die Natur.", "Jeg elsker naturen."]
+          ]},
+        { name: "Im Hotel",
+          tip: "„Takk for hjelpen“ – Dank für etwas Konkretes bildet man mit „takk for“.",
+          items: [
+            ["Ich habe eine Reservierung.", "Jeg har en reservasjon."],
+            ["Ein Zimmer für zwei Nächte.", "Et rom i to netter."],
+            ["Gibt es hier WLAN?", "Er det wifi her?"],
+            ["Wann gibt es Frühstück?", "Når er frokosten?"],
+            ["Können Sie mir helfen?", "Kan du hjelpe meg?"],
+            ["Wo ist die Toilette?", "Hvor er toalettet?"],
+            ["Danke für die Hilfe.", "Takk for hjelpen."]
+          ]}
+      ]
+    },
+    {
+      icon: "💬", name: "Pläne & Meinung", desc: "Erzählen, was war und kommt",
+      lessons: [
+        { name: "Über Pläne sprechen",
+          tip: "„Skal“ drückt einen festen Plan aus: Jeg skal reise til Bergen – ich werde nach Bergen fahren.",
+          items: [
+            ["Ich werde nach Bergen fahren.", "Jeg skal reise til Bergen."],
+            ["Was machst du morgen?", "Hva skal du gjøre i morgen?"],
+            ["Ich muss arbeiten.", "Jeg må jobbe."],
+            ["Heute kann ich nicht.", "Jeg kan ikke i dag."],
+            ["Willst du mitkommen?", "Vil du bli med?"],
+            ["Vielleicht später.", "Kanskje senere."],
+            ["Wir sehen uns morgen.", "Vi ses i morgen."]
+          ]},
+        { name: "Vergangenheit",
+          tip: "Regelmäßige Verben bekommen -et oder -te: jobbe → jobbet, spise → spiste.",
+          items: [
+            ["Gestern war ich zu Hause.", "I går var jeg hjemme."],
+            ["Ich habe Fisch gegessen.", "Jeg spiste fisk."],
+            ["Es war sehr schön.", "Det var veldig fint."],
+            ["Wir haben viel gelacht.", "Vi lo mye."],
+            ["Wo warst du?", "Hvor var du?"],
+            ["Das wusste ich nicht.", "Det visste jeg ikke."],
+            ["Ich habe den Bus verpasst.", "Jeg rakk ikke bussen."]
+          ]},
+        { name: "Gefühle & Meinung",
+          tip: "„Jeg tror“ heißt ich glaube (Vermutung), „jeg synes“ ich finde (persönliche Meinung).",
+          items: [
+            ["Ich glaube, das ist eine gute Idee.", "Jeg tror det er en god idé."],
+            ["Ich bin müde.", "Jeg er trøtt."],
+            ["Das gefällt mir.", "Jeg liker det."],
+            ["Es tut mir leid.", "Beklager."],
+            ["Mach dir keine Sorgen.", "Ikke tenk på det."],
+            ["Ich brauche Hilfe.", "Jeg trenger hjelp."],
+            ["Alles klar!", "Greit!"]
+          ]}
+      ]
+    }
+  ]
+},
+{
+  id: "sv", name: "Schwedisch", flag: "🇸🇪", voice: "sv-SE", level: "A1 → A2",
+  intro: "Melodisch, logisch und dem Deutschen näher als man denkt – wer Norwegisch kann, versteht hier vieles gratis mit.",
+  units: [
+    {
+      icon: "👋", name: "Erste Schritte", desc: "Begrüßen, vorstellen, zählen",
+      lessons: [
+        { name: "Hej och hej då",
+          tip: "„Hej“ passt zu jeder Tageszeit und in jeder Situation. „Tack“ ist das meistbenutzte Wort des Landes.",
+          items: [
+            ["Hallo!", "Hej!"],
+            ["Guten Morgen!", "God morgon!"],
+            ["Wie geht es dir?", "Hur mår du?"],
+            ["Danke, gut.", "Tack, bra."],
+            ["Wie heißt du?", "Vad heter du?"],
+            ["Ich heiße Finn.", "Jag heter Finn."],
+            ["Freut mich!", "Trevligt att träffas!"],
+            ["Tschüss!", "Hej då!"]
+          ]},
+        { name: "Über dich",
+          tip: "Die Extrabuchstaben å, ä, ö stehen am Ende des Alphabets – und ändern die Bedeutung: har (haben) vs. hår (Haar).",
+          items: [
+            ["Ich komme aus Deutschland.", "Jag kommer från Tyskland."],
+            ["Ich wohne in Stockholm.", "Jag bor i Stockholm."],
+            ["Sprichst du Englisch?", "Pratar du engelska?"],
+            ["Ich spreche ein bisschen Schwedisch.", "Jag pratar lite svenska."],
+            ["Ich verstehe nicht.", "Jag förstår inte."],
+            ["Kannst du das wiederholen?", "Kan du upprepa det?"],
+            ["Was bedeutet das?", "Vad betyder det?"]
+          ]},
+        { name: "Zahlen & Zeit",
+          tip: "Es gibt zwei Wörter für eins: „ett“ für sächliche, „en“ für gemeinsame Substantive.",
+          items: [
+            ["eins, zwei, drei", "ett, två, tre"],
+            ["vier, fünf, sechs", "fyra, fem, sex"],
+            ["Wie spät ist es?", "Vad är klockan?"],
+            ["Es ist drei Uhr.", "Klockan är tre."],
+            ["heute", "i dag"],
+            ["morgen", "i morgon"],
+            ["Was kostet das?", "Vad kostar det?"]
+          ]}
+      ]
+    },
+    {
+      icon: "🍰", name: "Fika & Alltag", desc: "Kaffeepause, einkaufen, erzählen",
+      lessons: [
+        { name: "Fika",
+          tip: "„Fika“ ist Verb und Substantiv zugleich: Ska vi fika? – Wollen wir Kaffee trinken gehen? Eine kleine Institution.",
+          items: [
+            ["Wollen wir Kaffee trinken gehen?", "Ska vi fika?"],
+            ["Einen Kaffee, bitte.", "En kaffe, tack."],
+            ["Eine Zimtschnecke, bitte.", "En kanelbulle, tack."],
+            ["Ich habe Hunger.", "Jag är hungrig."],
+            ["Das schmeckt richtig gut.", "Det smakar jättegott."],
+            ["Die Rechnung, bitte.", "Notan, tack."],
+            ["Danke für heute!", "Tack för idag!"]
+          ]},
+        { name: "Einkaufen",
+          tip: "„Jätte-“ verstärkt alles: jättebra (super), jättegott (sehr lecker), jättedyrt (viel zu teuer).",
+          items: [
+            ["Wo ist der Laden?", "Var ligger affären?"],
+            ["Das ist zu teuer.", "Det är för dyrt."],
+            ["Kann ich mit Karte zahlen?", "Kan jag betala med kort?"],
+            ["Ich suche eine Jacke.", "Jag letar efter en jacka."],
+            ["Haben Sie die in Blau?", "Har ni den i blått?"],
+            ["Ich nehme sie.", "Jag tar den."],
+            ["Vielen Dank!", "Tack så mycket!"]
+          ]},
+        { name: "Verben im Präsens",
+          tip: "Wie im Norwegischen bleibt das Verb in allen Personen gleich: jag pratar, du pratar, vi pratar.",
+          items: [
+            ["Ich arbeite in Stockholm.", "Jag jobbar i Stockholm."],
+            ["Wir wohnen hier.", "Vi bor här."],
+            ["Sie liest ein Buch.", "Hon läser en bok."],
+            ["Er trinkt Kaffee.", "Han dricker kaffe."],
+            ["Was machst du?", "Vad gör du?"],
+            ["Ich lerne Schwedisch.", "Jag lär mig svenska."],
+            ["Sie haben ein Haus.", "De har ett hus."]
+          ]}
+      ]
+    },
+    {
+      icon: "🚲", name: "Unterwegs", desc: "Wege, Wetter, Übernachten",
+      lessons: [
+        { name: "Nach dem Weg fragen",
+          tip: "„Var ligger …?“ fragt nach festen Orten, „Var är …?“ nach beweglichen Dingen.",
+          items: [
+            ["Wo ist der Bahnhof?", "Var ligger stationen?"],
+            ["Geradeaus.", "Rakt fram."],
+            ["Nach links.", "Till vänster."],
+            ["Nach rechts.", "Till höger."],
+            ["Es ist ganz in der Nähe.", "Det är nära."],
+            ["Wie komme ich ins Zentrum?", "Hur kommer jag till centrum?"],
+            ["Ich habe mich verlaufen.", "Jag har gått vilse."]
+          ]},
+        { name: "Wetter & Natur",
+          tip: "Wetter beschreibt man mit „det är“: det är kallt, det är soligt, det är vackert.",
+          items: [
+            ["Heute ist es kalt.", "Det är kallt idag."],
+            ["Es regnet.", "Det regnar."],
+            ["Die Sonne scheint.", "Solen skiner."],
+            ["Wir fahren aufs Land.", "Vi åker ut på landet."],
+            ["Der See ist schön.", "Sjön är vacker."],
+            ["Ich gehe gern spazieren.", "Jag tycker om att promenera."],
+            ["Es ist Sommer.", "Det är sommar."]
+          ]},
+        { name: "Im Hotel",
+          tip: "Merke: „rum“ ist das Zimmer, „ett rum“ ein Zimmer – sächlich, deshalb „ett“.",
+          items: [
+            ["Ich habe eine Buchung.", "Jag har en bokning."],
+            ["Ein Zimmer für zwei Nächte.", "Ett rum i två nätter."],
+            ["Gibt es WLAN?", "Finns det wifi?"],
+            ["Wann gibt es Frühstück?", "När serveras frukost?"],
+            ["Können Sie mir helfen?", "Kan du hjälpa mig?"],
+            ["Wo ist die Toilette?", "Var är toaletten?"],
+            ["Danke für die Hilfe.", "Tack för hjälpen."]
+          ]}
+      ]
+    },
+    {
+      icon: "💬", name: "Pläne & Meinung", desc: "Vorhaben, Vergangenheit, Gefühle",
+      lessons: [
+        { name: "Über Pläne sprechen",
+          tip: "„Ska“ steht für den festen Plan, „åka“ heißt fahren mit einem Fahrzeug, „gå“ zu Fuß gehen.",
+          items: [
+            ["Ich werde nach Göteborg fahren.", "Jag ska åka till Göteborg."],
+            ["Was machst du morgen?", "Vad ska du göra i morgon?"],
+            ["Ich muss arbeiten.", "Jag måste jobba."],
+            ["Heute kann ich nicht.", "Idag kan jag inte."],
+            ["Willst du mitkommen?", "Vill du följa med?"],
+            ["Vielleicht später.", "Kanske senare."],
+            ["Wir sehen uns!", "Vi ses!"]
+          ]},
+        { name: "Vergangenheit",
+          tip: "Regelmäßig wird -de oder -te angehängt: jobba → jobbade, prata → pratade.",
+          items: [
+            ["Gestern war ich zu Hause.", "I går var jag hemma."],
+            ["Ich habe Fisch gegessen.", "Jag åt fisk."],
+            ["Es war sehr schön.", "Det var väldigt fint."],
+            ["Wir haben viel gelacht.", "Vi skrattade mycket."],
+            ["Wo warst du?", "Var var du?"],
+            ["Das wusste ich nicht.", "Det visste jag inte."],
+            ["Ich habe den Bus verpasst.", "Jag missade bussen."]
+          ]},
+        { name: "Gefühle & Meinung",
+          tip: "„Förlåt“ ist die Entschuldigung für eigene Fehler, „ursäkta“ das Entschuldigen beim Ansprechen.",
+          items: [
+            ["Ich glaube, das ist eine gute Idee.", "Jag tror att det är en bra idé."],
+            ["Ich bin müde.", "Jag är trött."],
+            ["Das gefällt mir.", "Jag gillar det."],
+            ["Es tut mir leid.", "Förlåt."],
+            ["Mach dir keine Sorgen.", "Oroa dig inte."],
+            ["Ich brauche Hilfe.", "Jag behöver hjälp."],
+            ["Alles klar!", "Okej!"]
+          ]}
+      ]
+    }
+  ]
+},
+
+{
   id: "ja", name: "Japanisch", flag: "🇯🇵", voice: "ja-JP", level: "A0 → A1",
   intro: "Die richtig coole Wahl: erst Hiragana knacken, dann die wichtigsten Sätze. Antworten tippst du in Rōmaji.",
   units: [
@@ -1427,6 +1788,18 @@ function wordsLearned(c) {
   return Object.values(cs.items).filter(p => p.s >= 3).length;
 }
 
+/* Welche Lektion ist als Nächstes dran? */
+function nextTarget(c) {
+  let firstNew = null, lowest = null;
+  c.units.forEach((un, u) => un.lessons.forEach((ls, l) => {
+    if (!isUnlocked(c, u, l)) return;
+    const lvl = lessonLevel(c.id, u, l);
+    if (lvl === 0 && !firstNew) firstNew = { u: u, l: l, lvl: lvl };
+    if (lvl < MAX_LEVEL && (!lowest || lvl < lowest.lvl)) lowest = { u: u, l: l, lvl: lvl };
+  }));
+  return firstNew || lowest;
+}
+
 /* ====================== Startbildschirm ====================== */
 let activeView = "path";
 
@@ -1435,7 +1808,36 @@ function renderAll() {
   renderCoursePills();
   renderStats();
   renderGoal();
+  renderCta();
   renderView();
+}
+
+function renderCta() {
+  const c = course();
+  const t = nextTarget(c);
+  const kicker = $("#ctaKicker"), title = $("#ctaTitle"), sub = $("#ctaSub");
+  if (!t) {
+    const due = dueItems(c).length;
+    kicker.textContent = "Kurs komplett 🏆";
+    title.textContent = "Wiederholung starten";
+    sub.textContent = due ? due + " Vokabeln sind fällig" : "Alles auf fünf Kronen – halte es frisch";
+    return;
+  }
+  const lesson = c.units[t.u].lessons[t.l];
+  kicker.textContent = t.lvl === 0 ? "Weiterlernen" : "Nächste Krone";
+  title.textContent = lesson.name;
+  sub.textContent = c.units[t.u].icon + " " + c.units[t.u].name +
+    (t.lvl === 0 ? " · Einheit " + (t.u + 1) : " · Level " + (t.lvl + 1) + " von " + MAX_LEVEL);
+}
+
+function onContinue() {
+  const c = course();
+  const t = nextTarget(c);
+  if (t) { startLesson(t.u, t.l); return; }
+  const due = dueItems(c);
+  const pool = due.length >= 6 ? due : unlockedItems(c);
+  if (!pool.length) { toast("Schließe zuerst eine Lektion ab."); return; }
+  startSession(pool.slice(0, 20), "review", "Wiederholung");
 }
 
 function renderCoursePills() {
@@ -1449,6 +1851,9 @@ function renderCoursePills() {
   box.querySelectorAll(".course-pill").forEach(btn => btn.addEventListener("click", () => {
     state.activeCourse = btn.dataset.course; save(); renderAll();
   }));
+  /* aktiven Kurs in den sichtbaren Bereich holen */
+  const act = box.querySelector(".course-pill.active");
+  if (act) box.scrollLeft = Math.max(0, act.offsetLeft - 14);
 }
 
 function renderStats() {
@@ -2098,6 +2503,7 @@ function finishLesson() {
 }
 
 /* ====================== App starten & Bedienung ====================== */
+$("#continueBtn").addEventListener("click", onContinue);
 $("#checkBtn").addEventListener("click", onCheck);
 $("#quitLesson").addEventListener("click", () => {
   if (phase !== "done" && S && S.pos > 0 && !confirm("Lektion wirklich abbrechen? Der Fortschritt der einzelnen Vokabeln bleibt gespeichert.")) return;
