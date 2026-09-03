@@ -1,11 +1,13 @@
-const CACHE = "tracker-v21";
+const CACHE = "tracker-v22";
 const ASSETS = [
   "./",
   "./index.html",
   "./wm.html",
   "./atp.html",
+  "./finanzen.html",
   "./style.css",
   "./script.js",
+  "./finanzen.js",
   "./manifest.json",
   "./icons/icon-192.png",
   "./icons/icon-512.png",

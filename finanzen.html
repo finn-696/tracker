@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finanzen – Depot, Krypto &amp; Cashflow | Mein Tracker</title>
+<meta name="description" content="Aktien, ETFs und Krypto mit Live-Kursen verfolgen, Einnahmen und Ausgaben erfassen und das Gesamtvermögen im Blick behalten.">
+<meta name="theme-color" content="#0e1124">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="title-row">
+        <h1>💰 Finanzen</h1>
+        <div class="title-right">
+          <div class="title-links">
+            <a href="index.html" class="back-link">← Tracker</a>
+          </div>
+          <p class="date" id="today"></p>
+        </div>
+      </div>
+
+      <!-- Gesamtvermögen -->
+      <div class="networth-card">
+        <span class="nw-label">Gesamtvermögen</span>
+        <span class="nw-value" id="nwValue">0,00 €</span>
+        <span class="nw-delta" id="nwDelta"></span>
+        <div class="nw-split" id="nwSplit"></div>
+      </div>
+
+      <nav class="tabs">
+        <button class="tab active" data-tab="overview">📊 Übersicht</button>
+        <button class="tab" data-tab="depot">📈 Depot</button>
+        <button class="tab" data-tab="cashflow">💸 Cashflow</button>
+        <button class="tab" data-tab="analyse">🧮 Analyse</button>
+      </nav>
+    </header>
+
+    <!-- ÜBERSICHT -->
+    <section id="overviewTab" class="tab-content active">
+      <div class="fin-stat-grid" id="overviewStats"></div>
+
+      <div class="fin-card">
+        <div class="fin-card-top">
+          <span class="fin-card-title">📉 Vermögensverlauf</span>
+          <span class="fin-card-sub" id="nwChartRange"></span>
+        </div>
+        <div class="chart-wrap">
+          <svg id="nwChart" viewBox="0 0 300 120" preserveAspectRatio="none"></svg>
+        </div>
+        <p class="fin-hint">Pro Tag wird automatisch ein Stand gespeichert, sobald du die Seite öffnest.</p>
+      </div>
+
+      <div class="fin-card">
+        <div class="fin-card-top">
+          <span class="fin-card-title">🧩 Aufteilung</span>
+          <span class="fin-card-sub" id="allocTotal"></span>
+        </div>
+        <div class="alloc-bar" id="allocBar"></div>
+        <div class="alloc-legend" id="allocLegend"></div>
+      </div>
+
+      <div class="fin-card">
+        <div class="fin-card-top">
+          <span class="fin-card-title">🚀 Bewegung heute</span>
+          <span class="fin-card-sub" id="moversSub"></span>
+        </div>
+        <ul id="moversList" class="log-history"></ul>
+      </div>
+
+      <div class="fin-card">
+        <div class="fin-card-top">
+          <span class="fin-card-title">💸 Dieser Monat</span>
+          <span class="fin-card-sub" id="overviewMonthLabel"></span>
+        </div>
+        <div class="fin-stat-grid" id="overviewMonth"></div>
+      </div>
+    </section>
+
+    <!-- DEPOT -->
+    <section id="depotTab" class="tab-content">
+      <div class="depot-toolbar">
+        <button type="button" id="refreshBtn" class="refresh-btn">🔄 Kurse aktualisieren</button>
+        <span class="price-status" id="priceStatus">Noch keine Kurse geladen</span>
+      </div>
+
+      <form id="positionForm" autocomplete="off">
+        <div class="form-row">
+          <select id="posType">
+            <option value="aktie">📈 Aktie / ETF</option>
+            <option value="krypto">🪙 Krypto</option>
+          </select>
+          <input type="text" id="posSymbol" placeholder="Symbol, z.B. AAPL" required>
+        </div>
+        <div class="form-row">
+          <input type="text" id="posName" placeholder="Name (optional)">
+          <select id="posCurrency">
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+            <option value="CHF">CHF</option>
+            <option value="GBP">GBP</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <input type="number" id="posQty" step="any" min="0" placeholder="Anzahl / Menge" required inputmode="decimal">
+          <input type="number" id="posBuy" step="any" min="0" placeholder="Kaufkurs" required inputmode="decimal">
+        </div>
+        <button type="submit" class="full-width-btn">+ Position hinzufügen</button>
+        <p class="fin-hint">Aktien &amp; ETFs über ihr Börsen-Symbol (AAPL, MSFT, SAP), Krypto über das Kürzel (BTC, ETH, SOL).</p>
+      </form>
+
+      <div id="positionList" class="position-grid"></div>
+      <p class="summary" id="depotSummary"></p>
+    </section>
+
+    <!-- CASHFLOW -->
+    <section id="cashflowTab" class="tab-content">
+      <div class="month-nav">
+        <button type="button" id="prevMonth">‹</button>
+        <span id="monthLabel"></span>
+        <button type="button" id="nextMonth">›</button>
+      </div>
+
+      <div class="fin-stat-grid" id="monthStats"></div>
+
+      <form id="txForm" autocomplete="off">
+        <div class="type-toggle">
+          <button type="button" class="type-btn active" data-type="aus">− Ausgabe</button>
+          <button type="button" class="type-btn" data-type="ein">+ Einnahme</button>
+        </div>
+        <div class="form-row">
+          <input type="number" id="txAmount" step="0.01" min="0" placeholder="Betrag (€)" required inputmode="decimal">
+          <select id="txCategory"></select>
+        </div>
+        <div class="form-row">
+          <input type="date" id="txDate" required>
+          <input type="text" id="txNote" placeholder="Notiz (optional)">
+        </div>
+        <label class="check-row">
+          <input type="checkbox" id="txRecurring">
+          <span>🔁 Monatlich wiederkehrend (wird automatisch fortgeschrieben)</span>
+        </label>
+        <button type="submit" class="full-width-btn">+ Buchen</button>
+      </form>
+
+      <ul id="txList" class="log-history tx-list"></ul>
+
+      <details class="goal-details">
+        <summary>🔁 Wiederkehrende Buchungen</summary>
+        <ul id="recurringList" class="log-history"></ul>
+      </details>
+    </section>
+
+    <!-- ANALYSE -->
+    <section id="analyseTab" class="tab-content">
+      <div class="fin-card">
+        <div class="fin-card-top">
+          <span class="fin-card-title">🍕 Ausgaben nach Kategorie</span>
+          <span class="fin-card-sub" id="catMonthLabel"></span>
+        </div>
+        <div id="categoryBars"></div>
+      </div>
+
+      <div class="fin-card">
+        <div class="fin-card-top">
+          <span class="fin-card-title">📊 Letzte 6 Monate</span>
+          <span class="fin-card-sub">Einnahmen vs. Ausgaben</span>
+        </div>
+        <div id="monthsChart" class="months-chart"></div>
+      </div>
+
+      <div class="fin-card">
+        <div class="fin-card-top">
+          <span class="fin-card-title">🎯 Budgets</span>
+          <span class="fin-card-sub" id="budgetSub"></span>
+        </div>
+        <div id="budgetList"></div>
+        <form id="budgetForm" class="form-row goal-row">
+          <select id="budgetCategory"></select>
+          <input type="number" id="budgetLimit" step="1" min="0" placeholder="Limit / Monat (€)" inputmode="decimal">
+          <button type="submit">Setzen</button>
+        </form>
+      </div>
+
+      <details class="goal-details">
+        <summary>⚙️ Konto &amp; Kursquelle</summary>
+        <form id="settingsForm" class="settings-form">
+          <label class="settings-label" for="cashStart">Startkontostand (€)</label>
+          <input type="number" id="cashStart" step="0.01" placeholder="z.B. 1500" inputmode="decimal">
+          <label class="settings-label" for="apiKey">Twelve-Data-API-Key (kostenlos, für Aktienkurse)</label>
+          <input type="text" id="apiKey" placeholder="optional – ohne Key nur Demo-Symbole">
+          <button type="submit" class="full-width-btn">Speichern</button>
+        </form>
+        <p class="fin-hint">Krypto-Kurse kommen ohne Key von Coinbase/CoinGecko. Für Aktien &amp; ETFs holst du dir in 10 Sekunden einen kostenlosen Key auf <span class="mono">twelvedata.com</span> – ohne Key funktionieren nur einzelne Demo-Symbole (AAPL, MSFT).</p>
+      </details>
+
+      <details class="goal-details">
+        <summary>💾 Daten sichern</summary>
+        <div class="form-row goal-row">
+          <button type="button" id="exportBtn">⬇️ Export</button>
+          <button type="button" id="importBtn">⬆️ Import</button>
+        </div>
+        <textarea id="dataArea" class="data-area" placeholder="Hier erscheint dein Export – oder füge einen Export ein und drücke Import."></textarea>
+      </details>
+    </section>
+  </div>
+
+  <!-- POSITION-DETAIL -->
+  <div id="positionModal" class="modal hidden">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">✕</button>
+      <h2 id="posModalTitle"></h2>
+      <p class="pos-modal-price" id="posModalPrice"></p>
+
+      <div class="chart-wrap">
+        <svg id="posChart" viewBox="0 0 300 120" preserveAspectRatio="none"></svg>
+      </div>
+
+      <div class="stats-grid" id="posStats"></div>
+
+      <form id="posEditForm">
+        <p class="section-label">✏️ Position bearbeiten</p>
+        <div class="form-row">
+          <input type="number" id="editQty" step="any" min="0" placeholder="Menge" required inputmode="decimal">
+          <input type="number" id="editBuy" step="any" min="0" placeholder="Kaufkurs" required inputmode="decimal">
+        </div>
+        <div class="form-row">
+          <input type="number" id="editManual" step="any" min="0" placeholder="Kurs manuell (optional)" inputmode="decimal">
+          <button type="submit">Speichern</button>
+        </div>
+      </form>
+
+      <button class="delete-exercise" id="deletePosition">Position löschen</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="finanzen.js"></script>
+</body>
+</html>
